@@ -97,6 +97,7 @@ def updateGPS():
         timestamp = (current_date, gps_parser.timestamp[0],
                      gps_parser.timestamp[1], gps_parser.timestamp[2])
         current_coord = (gps_parser.latitude[0], gps_parser.longitude[0])
+
         calcAndUpdateAzimuthArgument(*current_coord)
 
 
@@ -132,8 +133,8 @@ def printResult():
     print("Target Rad: {}".format(str((rad + azimuth) % 360)))
 
 
-def logger():
-    print("Logger: start")
+def main():
+    print("Navicompass: start")
 
     while True:
         # sleep 100ms to prevent error
@@ -152,4 +153,4 @@ def logger():
         printResult()
 
 
-logger_thread = _thread.start_new_thread("Logger", logger, ())
+main_thread = _thread.start_new_thread("Main", main, ())
