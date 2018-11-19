@@ -32,11 +32,10 @@ class MicropyGPS(object):
     __NO_FIX = 1
     __FIX_2D = 2
     __FIX_3D = 3
-    __DIRECTIONS = ('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W',
-                    'WNW', 'NW', 'NNW')
-    __MONTHS = ('January', 'February', 'March', 'April', 'May',
-                'June', 'July', 'August', 'September', 'October',
-                'November', 'December')
+    __DIRECTIONS = ('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S',
+                    'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW')
+    __MONTHS = ('January', 'February', 'March', 'April', 'May', 'June', 'July',
+                'August', 'September', 'October', 'November', 'December')
 
     def __init__(self, local_offset=0, location_formatting='ddm'):
         """
@@ -111,7 +110,10 @@ class MicropyGPS(object):
         elif self.coord_format == 'dms':
             minute_parts = modf(self._latitude[1])
             seconds = round(minute_parts[0] * 60)
-            return [self._latitude[0], int(minute_parts[1]), seconds, self._latitude[2]]
+            return [
+                self._latitude[0],
+                int(minute_parts[1]), seconds, self._latitude[2]
+            ]
         else:
             return self._latitude
 
@@ -124,7 +126,10 @@ class MicropyGPS(object):
         elif self.coord_format == 'dms':
             minute_parts = modf(self._longitude[1])
             seconds = round(minute_parts[0] * 60)
-            return [self._longitude[0], int(minute_parts[1]), seconds, self._longitude[2]]
+            return [
+                self._longitude[0],
+                int(minute_parts[1]), seconds, self._longitude[2]
+            ]
         else:
             return self._longitude
 
@@ -483,7 +488,8 @@ class MicropyGPS(object):
         # Calculate  Number of Satelites to pull data for and thus how many segment positions to read
         if num_sv_sentences == current_sv_sentence:
             # Last sentence may have 1-4 satellites; 5 - 20 positions
-            sat_segment_limit = (sats_in_view - ((num_sv_sentences - 1) * 4)) * 5
+            sat_segment_limit = (sats_in_view - (
+                (num_sv_sentences - 1) * 4)) * 5
         else:
             sat_segment_limit = 20  # Non-last sentences have 4 satellites and thus read up to position 20
 
@@ -494,22 +500,22 @@ class MicropyGPS(object):
             if self.gps_segments[sats]:
                 try:
                     sat_id = int(self.gps_segments[sats])
-                except (ValueError,IndexError):
+                except (ValueError, IndexError):
                     return False
 
                 try:  # elevation can be null (no value) when not tracking
-                    elevation = int(self.gps_segments[sats+1])
-                except (ValueError,IndexError):
+                    elevation = int(self.gps_segments[sats + 1])
+                except (ValueError, IndexError):
                     elevation = None
 
                 try:  # azimuth can be null (no value) when not tracking
-                    azimuth = int(self.gps_segments[sats+2])
-                except (ValueError,IndexError):
+                    azimuth = int(self.gps_segments[sats + 2])
+                except (ValueError, IndexError):
                     azimuth = None
 
                 try:  # SNR can be null (no value) when not tracking
-                    snr = int(self.gps_segments[sats+3])
-                except (ValueError,IndexError):
+                    snr = int(self.gps_segments[sats + 3])
+                except (ValueError, IndexError):
                     snr = None
             # If no PRN is found, then the sentence has no more satellites to read
             else:
@@ -591,7 +597,8 @@ class MicropyGPS(object):
 
                         if len(self.gps_segments[self.active_segment]) == 2:
                             try:
-                                final_crc = int(self.gps_segments[self.active_segment], 16)
+                                final_crc = int(
+                                    self.gps_segments[self.active_segment], 16)
                                 if self.crc_xor == final_crc:
                                     valid_sentence = True
                                 else:
@@ -696,12 +703,16 @@ class MicropyGPS(object):
         """
         if self.coord_format == 'dd':
             formatted_latitude = self.latitude
-            lat_string = str(formatted_latitude[0]) + '° ' + str(self._latitude[2])
+            lat_string = str(formatted_latitude[0]) + '° ' + str(
+                self._latitude[2])
         elif self.coord_format == 'dms':
             formatted_latitude = self.latitude
-            lat_string = str(formatted_latitude[0]) + '° ' + str(formatted_latitude[1]) + "' " + str(formatted_latitude[2]) + '" ' + str(formatted_latitude[3])
+            lat_string = str(formatted_latitude[0]) + '° ' + str(
+                formatted_latitude[1]) + "' " + str(
+                    formatted_latitude[2]) + '" ' + str(formatted_latitude[3])
         else:
-            lat_string = str(self._latitude[0]) + '° ' + str(self._latitude[1]) + "' " + str(self._latitude[2])
+            lat_string = str(self._latitude[0]) + '° ' + str(
+                self._latitude[1]) + "' " + str(self._latitude[2])
         return lat_string
 
     def longitude_string(self):
@@ -711,12 +722,16 @@ class MicropyGPS(object):
         """
         if self.coord_format == 'dd':
             formatted_longitude = self.longitude
-            lon_string = str(formatted_longitude[0]) + '° ' + str(self._longitude[2])
+            lon_string = str(formatted_longitude[0]) + '° ' + str(
+                self._longitude[2])
         elif self.coord_format == 'dms':
             formatted_longitude = self.longitude
-            lon_string = str(formatted_longitude[0]) + '° ' + str(formatted_longitude[1]) + "' " + str(formatted_longitude[2]) + '" ' + str(formatted_longitude[3])
+            lon_string = str(formatted_longitude[0]) + '° ' + str(
+                formatted_longitude[1]) + "' " + str(
+                    formatted_longitude[2]) + '" ' + str(formatted_longitude[3])
         else:
-            lon_string = str(self._longitude[0]) + '° ' + str(self._longitude[1]) + "' " + str(self._longitude[2])
+            lon_string = str(self._longitude[0]) + '° ' + str(
+                self._longitude[1]) + "' " + str(self._longitude[2])
         return lon_string
 
     def speed_string(self, unit='kph'):
@@ -802,16 +817,26 @@ class MicropyGPS(object):
         return date_string
 
     # All the currently supported NMEA sentences
-    supported_sentences = {'GPRMC': gprmc, 'GLRMC': gprmc,
-                           'GPGGA': gpgga, 'GLGGA': gpgga,
-                           'GPVTG': gpvtg, 'GLVTG': gpvtg,
-                           'GPGSA': gpgsa, 'GLGSA': gpgsa,
-                           'GPGSV': gpgsv, 'GLGSV': gpgsv,
-                           'GPGLL': gpgll, 'GLGLL': gpgll,
-                           'GNGGA': gpgga, 'GNRMC': gprmc,
-                           'GNVTG': gpvtg, 'GNGLL': gpgll,
-                           'GNGSA': gpgsa,
-                          }
+    supported_sentences = {
+        'GPRMC': gprmc,
+        'GLRMC': gprmc,
+        'GPGGA': gpgga,
+        'GLGGA': gpgga,
+        'GPVTG': gpvtg,
+        'GLVTG': gpvtg,
+        'GPGSA': gpgsa,
+        'GLGSA': gpgsa,
+        'GPGSV': gpgsv,
+        'GLGSV': gpgsv,
+        'GPGLL': gpgll,
+        'GLGLL': gpgll,
+        'GNGGA': gpgga,
+        'GNRMC': gprmc,
+        'GNVTG': gpvtg,
+        'GNGLL': gpgll,
+        'GNGSA': gpgsa,
+    }
+
 
 if __name__ == "__main__":
     pass
