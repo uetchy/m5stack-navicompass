@@ -10,7 +10,7 @@ target_coords = (35.388127, 139.427293)  # replace with where you want to go
 current_coord = (0, 0)  # lat, lon
 timestamp = ("N/A", 0, 0, 0)  # date_str, h, m, s
 corrected_gauss = (0, 0, 0)
-azimuth_arg = 7.3  # default to the azimuth to Kanagawa
+azimuth_arg = 7.2  # default to the arg for Japan
 azimuth = 0
 
 # gps
