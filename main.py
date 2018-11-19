@@ -6,7 +6,7 @@ from micropyGPS import MicropyGPS
 from machine import UART, I2C, Pin
 from mpu9250 import MPU9250
 
-target_coords = (35.396516, 139.466201)  # Shonandai Station
+target_coords = (35.388127, 139.427293)  # replace with where you want to go
 current_coord = (0, 0)  # lat, lon
 timestamp = ("N/A", 0, 0, 0)  # date_str, h, m, s
 corrected_gauss = (0, 0, 0)
