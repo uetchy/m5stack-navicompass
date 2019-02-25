@@ -112,7 +112,7 @@ def calcTargetRadian(coord, target_coord):
 def printResult():
   lcd.clear()
   lcd.print('Date: ' + timestamp[0], 10, 10)
-  lcd.print('Blue = Destination, Grey = North', 10, 20)
+  lcd.print('Blue = Destination, Red = North', 10, 20)
   # lcd.print(
   #     'Location: ' + str(current_coord[0]) + ', ' + str(current_coord[1]), 10,
   #     30)
@@ -122,8 +122,13 @@ def printResult():
   rad = calcTargetRadian(current_coord, target_coords)
   # lcd.print("Rad: {}".format(rad), 10, 90)
   # lcd.print("Target Rad: {}".format(str((rad + azimuth) % 360)), 10, 110)
-  lcd.lineByAngle(160, 120, 0, 120, round(azimuth), lcd.DARKGREY)
+  lcd.lineByAngle(161, 119, 0, 120, round(azimuth), lcd.RED)
+  lcd.lineByAngle(160, 120, 0, 120, round(azimuth), lcd.RED)
+  lcd.lineByAngle(161, 121, 0, 120, round(azimuth), lcd.RED)
+
+  lcd.lineByAngle(161, 119, 0, 120, round(rad + azimuth) % 360, lcd.BLUE)
   lcd.lineByAngle(160, 120, 0, 120, round(rad + azimuth) % 360, lcd.BLUE)
+  lcd.lineByAngle(161, 121, 0, 120, round(rad + azimuth) % 360, lcd.BLUE)
 
   print('Date: ' + timestamp[0])
   print('Location: ' + str(current_coord[0]) + ', ' + str(current_coord[1]))
